@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Nike</title>
+    <link rel="website icon" type="png" href="icon.png">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <meta name="description" content="Shopyfy">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="container">
+            <a href="{{url_for('admin')}}" class="navbar-brand">SHOPYFY</a>
+            <div class="navbar-wrap">
+                <ul class="navbar-menu">
+                    <li>
+                        <a href="#">О нас</a>
+                        <ul class="submenu">
+                            <li><a href="#" id="teamLink">Наша команда</a></li>
+                            <li><a href="#">История</a></li>
+                            <li><a href="#">Контакты</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Портфолио</a>
+                        <ul class="submenu">
+                            <li><a href="#">Проекты</a></li>
+                            <li><a href="#">Отчеты</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="" class="callback">продукты</a>
+                        <ul class="submenu">
+                            <li><a href="{{url_for('puma')}}">Puma</a></li>
+                            <li><a href="{{url_for('nike')}}" >Nike</a></li>
+                            <li><a href="{{url_for('adidas')}}" >Adidas</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{url_for('korzina')}}">
+                            <img src="{{ url_for('static', filename='cart-shopping-solid.svg') }}" alt="Корзина" class="cart-icon">
+                            <span id="cart-count" class="cart-badge">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+    </div>
+</nav>
+
+<div class="sidebar">
+    <br>
+    <div class="cards-row">
+        <!-- Карточки продуктов -->
+        {% for product in products %}
+            {% if product.id >= 13 and product.id <= 16 %}
+                <div class="card" data-id="{{ product.id }}" data-name="{{ product.name }}" data-price="{{ product.price }}">
+                    <h4 align="center">{{ product.name }}</h4>
+                    <img src="{{ product.image }}" alt="{{ product.name }}" class="card-image">
+                    <p><h4>{{ product.price }} $</h4></p>
+                    <div class="card-buttons">
+                        <button class="buy-button">Купить</button>
+                        <form action="{{ url_for('add_to_cart') }}" method="POST">
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="hidden" name="product_name" value="{{ product.name }}">
+                            <input type="hidden" name="product_price" value="{{ product.price }}">
+                            <input type="hidden" name="product_image" value="{{ product.image }}">
+                            <button type="submit" class="cart-button">Положить в корзину</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <button id="other-products-button" class="load-more-button">Показать другие продукты</button>
+
+    <!-- Контейнер для дополнительных товаров -->
+    <div id="other-products-container" class="hidden"></div>
+
+    <br>
+</div>
+
+<div class="footer"> </div>
+
+<script src="{{url_for('static', filename='scripts.js')}}"></script>
+</body>
+</html>
